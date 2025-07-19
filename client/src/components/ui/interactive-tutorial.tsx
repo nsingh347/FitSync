@@ -123,7 +123,7 @@ export function InteractiveTutorial({ steps, isVisible, onClose, onComplete }: I
           className="fixed inset-0 z-50 pointer-events-none"
         >
           {/* Dark overlay */}
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+          <div className="absolute inset-0 bg-black/40" />
           
           {/* Spotlight effect */}
           {step.target && (
@@ -140,7 +140,7 @@ export function InteractiveTutorial({ steps, isVisible, onClose, onComplete }: I
                 background: 'transparent',
                 border: '3px solid rgb(124, 58, 237)',
                 borderRadius: '12px',
-                boxShadow: '0 0 0 4px rgba(124, 58, 237, 0.3), 0 0 0 9999px rgba(0, 0, 0, 0.6)',
+                boxShadow: '0 0 0 4px rgba(124, 58, 237, 0.3), 0 0 0 9999px rgba(0, 0, 0, 0.4)',
                 animation: 'pulse 2s infinite'
               }}
             />

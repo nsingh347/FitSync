@@ -37,6 +37,19 @@ export default function Dashboard() {
   const statsAnimation = useScrollAnimation();
   const mealAnimation = useScrollAnimation();
   const workoutAnimation = useScrollAnimation();
+
+  // Ensure dashboard content is visible during tutorial
+  useEffect(() => {
+    if (showTutorial) {
+      // Force visibility of all dashboard content
+      const dashboardContent = document.querySelectorAll('.scroll-reveal, .scroll-reveal-left, .scroll-reveal-right');
+      dashboardContent.forEach((element) => {
+        (element as HTMLElement).style.opacity = '1';
+        (element as HTMLElement).style.visibility = 'visible';
+        element.classList.add('visible');
+      });
+    }
+  }, [showTutorial]);
   
   const caloriesConsumed = useCountUp(progressData?.caloriesConsumed || 0, 1500, statsAnimation.isVisible);
   const caloriesBurned = useCountUp(progressData?.caloriesBurned || 0, 1500, statsAnimation.isVisible);
@@ -86,8 +99,16 @@ export default function Dashboard() {
     setTimeout(() => {
       const mealSection = document.querySelector('.scroll-reveal-left');
       const workoutSection = document.querySelector('.scroll-reveal-right');
-      if (mealSection) mealSection.classList.add('visible');
-      if (workoutSection) workoutSection.classList.add('visible');
+      if (mealSection) {
+        mealSection.classList.add('visible');
+        (mealSection as HTMLElement).style.opacity = '1';
+        (mealSection as HTMLElement).style.visibility = 'visible';
+      }
+      if (workoutSection) {
+        workoutSection.classList.add('visible');
+        (workoutSection as HTMLElement).style.opacity = '1';
+        (workoutSection as HTMLElement).style.visibility = 'visible';
+      }
     }, 500);
   }, [userProfile?.id, setLocation, setProgressData, addNotification]);
 
@@ -455,6 +476,7 @@ export default function Dashboard() {
           <motion.section 
             ref={mealAnimation.ref}
             className={`scroll-reveal-left ${mealAnimation.isVisible ? 'visible' : 'visible'}`}
+            style={{ opacity: 1, visibility: 'visible' }}
           >
             <Card className="glass-card border-0 h-full" data-tutorial="meals">
               <CardHeader className="pb-4">
@@ -528,6 +550,7 @@ export default function Dashboard() {
           <motion.section 
             ref={workoutAnimation.ref}
             className={`scroll-reveal-right ${workoutAnimation.isVisible ? 'visible' : 'visible'}`}
+            style={{ opacity: 1, visibility: 'visible' }}
           >
             <Card className="glass-card border-0 h-full" data-tutorial="workouts">
               <CardHeader className="pb-4">
