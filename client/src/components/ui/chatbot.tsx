@@ -88,6 +88,16 @@ export function Chatbot() {
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  // Debug: Log when component mounts
+  useEffect(() => {
+    console.log('Chatbot component mounted');
+  }, []);
+
+  // Debug: Log state changes
+  useEffect(() => {
+    console.log('Chatbot isOpen state:', isOpen);
+  }, [isOpen]);
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -127,34 +137,19 @@ export function Chatbot() {
   return (
     <>
       {/* Chat Toggle Button */}
-      <motion.div
-        className="fixed bottom-6 right-6 z-50"
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ delay: 2, type: "spring", stiffness: 200 }}
-      >
-        <Button
-          onClick={() => setIsOpen(true)}
-          className="w-14 h-14 rounded-full btn-primary shadow-lg hover-scale group"
-          size="icon"
+      <div className="fixed bottom-6 right-6 z-[9999]">
+        <button
+          onClick={() => {
+            console.log('Chatbot button clicked!');
+            setIsOpen(true);
+          }}
+          className="w-14 h-14 rounded-full bg-blue-600 text-white hover:bg-blue-700 shadow-lg flex items-center justify-center cursor-pointer border-0"
+          type="button"
+          style={{ position: 'relative', zIndex: 9999 }}
         >
-          <MessageCircle className="w-6 h-6 group-hover:scale-110 transition-transform" />
-        </Button>
-        
-        {/* Pulse indicator */}
-        <motion.div
-          className="absolute inset-0 rounded-full bg-primary/20"
-          animate={{
-            scale: [1, 1.5, 1],
-            opacity: [0.5, 0, 0.5]
-          }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-      </motion.div>
+          <MessageCircle className="w-6 h-6" />
+        </button>
+      </div>
 
       {/* Chat Window */}
       <AnimatePresence>
@@ -164,7 +159,7 @@ export function Chatbot() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 100 }}
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
-            className="fixed bottom-24 right-6 w-96 h-[500px] glass-card border-0 shadow-2xl z-50 flex flex-col"
+            className="fixed bottom-24 right-6 w-96 h-[500px] glass-card border-0 shadow-2xl z-[9998] flex flex-col bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl"
           >
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-border/50">
