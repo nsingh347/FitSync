@@ -38,16 +38,24 @@ export default function Dashboard() {
   const mealAnimation = useScrollAnimation();
   const workoutAnimation = useScrollAnimation();
 
-  // Ensure dashboard content is visible during tutorial
+  // Ensure dashboard content is visible during tutorial and on first load
   useEffect(() => {
-    if (showTutorial) {
-      // Force visibility of all dashboard content
+    // Force visibility of all dashboard content immediately and when tutorial is shown
+    const forceVisibility = () => {
       const dashboardContent = document.querySelectorAll('.scroll-reveal, .scroll-reveal-left, .scroll-reveal-right');
       dashboardContent.forEach((element) => {
         (element as HTMLElement).style.opacity = '1';
         (element as HTMLElement).style.visibility = 'visible';
         element.classList.add('visible');
       });
+    };
+
+    // Force visibility immediately
+    forceVisibility();
+    
+    // Also force visibility when tutorial is shown
+    if (showTutorial) {
+      forceVisibility();
     }
   }, [showTutorial]);
   
@@ -95,20 +103,14 @@ export default function Dashboard() {
       }, 1000);
     }
 
-    // Ensure meal and workout cards are visible after a delay
+    // Ensure all dashboard sections are visible after a delay
     setTimeout(() => {
-      const mealSection = document.querySelector('.scroll-reveal-left');
-      const workoutSection = document.querySelector('.scroll-reveal-right');
-      if (mealSection) {
-        mealSection.classList.add('visible');
-        (mealSection as HTMLElement).style.opacity = '1';
-        (mealSection as HTMLElement).style.visibility = 'visible';
-      }
-      if (workoutSection) {
-        workoutSection.classList.add('visible');
-        (workoutSection as HTMLElement).style.opacity = '1';
-        (workoutSection as HTMLElement).style.visibility = 'visible';
-      }
+      const allSections = document.querySelectorAll('.scroll-reveal, .scroll-reveal-left, .scroll-reveal-right');
+      allSections.forEach((section) => {
+        section.classList.add('visible');
+        (section as HTMLElement).style.opacity = '1';
+        (section as HTMLElement).style.visibility = 'visible';
+      });
     }, 500);
   }, [userProfile?.id, setLocation, setProgressData, addNotification]);
 
@@ -400,7 +402,8 @@ export default function Dashboard() {
         {/* Hero Stats Section */}
         <motion.section
           ref={heroAnimation.ref}
-          className={`scroll-reveal ${heroAnimation.isVisible ? 'visible' : ''}`}
+          className={`scroll-reveal ${heroAnimation.isVisible ? 'visible' : 'visible'}`}
+          style={{ opacity: 1, visibility: 'visible' }}
         >
           <div className="grid md:grid-cols-4 gap-6">
             <div className="interactive-card glass-card p-6" data-tutorial="profile">
@@ -454,7 +457,8 @@ export default function Dashboard() {
         {/* Daily Quote */}
         <motion.section
           ref={statsAnimation.ref}
-          className={`scroll-reveal ${statsAnimation.isVisible ? 'visible' : ''}`}
+          className={`scroll-reveal ${statsAnimation.isVisible ? 'visible' : 'visible'}`}
+          style={{ opacity: 1, visibility: 'visible' }}
         >
           <div className="glass-card p-8 text-center bg-gradient-to-r from-primary/10 to-secondary/10">
             <motion.div
